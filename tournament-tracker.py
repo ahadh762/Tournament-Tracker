@@ -1,4 +1,4 @@
-def Validate_Input(message, input_type):
+def Validate_Input(message, input_type, num_participants = 1):
 
     valid_value = False
 
@@ -6,8 +6,15 @@ def Validate_Input(message, input_type):
         while valid_value == False:
             try:
                 user_input = int(input(message))
-                valid_value = True
-                return user_input
+                if (user_input < 1 or user_input > num_participants) and num_participants != 1:
+                    print()
+                    print('Error: Out of range!\n')
+                elif user_input <= 1 and num_participants == 1:
+                    print()
+                    print('Error: The number of participants must be more than 1!\n')
+                else:
+                    valid_value = True
+                    return user_input
             except ValueError:
                 print()
                 print("Error: Invalid input.\n")
@@ -16,18 +23,14 @@ def Validate_Input(message, input_type):
 
 def StartUp():
 
-    global num_participants
     global participant_dict
+    global num_participants
 
     print()
     print("Welcome to Tournaments R Us\n============================")
     message = "Enter number of participants: "
 
     num_participants = Validate_Input(message, 'number')
-    while num_participants <= 1:
-        print()
-        print('Error: The number of participants must be more than 1!\n')
-        num_participants = Validate_Input(message, 'number')
 
     print(f"There are {num_participants} participant slots ready for sign-ups.\n\n")
 
@@ -44,14 +47,10 @@ def SignUp(run_number = 1):
         print("Participant Sign Up\n====================")
         participant_name = input("Participant Name: ")
     slot_message = f"Desired starting slot #[1-{num_participants}]: "
-    starting_slot = Validate_Input(slot_message, 'number')
+    starting_slot = Validate_Input(slot_message, 'number', num_participants)
 
-    while starting_slot < 1 or starting_slot > num_participants:
-        print()
-        print('Error: Out of range!\n')
-        starting_slot = Validate_Input(slot_message, 'number')
-    print()
     if participant_dict[starting_slot] != None:
+        print()
         print(f"Error:\nSlot #{starting_slot} is filled. Please try again.\n")  
         SignUp(2)
     else:
@@ -61,17 +60,13 @@ def SignUp(run_number = 1):
 
 def CancelSignUp(run_number = 1):
 
+    print()
     if run_number == 1:
         print("Participant Cancellation\n========================")
 
     cancel_message = f"Starting slot #[1-{num_participants}]: "
     cancel_name = input("Participant Name: ")
-
-    cancel_slot = Validate_Input(cancel_message, 'number')
-    while cancel_slot < 1 or cancel_slot > num_participants:
-        print()
-        print('Error: Out of range!\n')
-        cancel_slot = Validate_Input(cancel_message, 'number')
+    cancel_slot = Validate_Input(cancel_message, 'number', num_participants)
     print()
 
     if participant_dict[cancel_slot] != cancel_name:
