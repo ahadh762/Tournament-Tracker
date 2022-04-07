@@ -54,8 +54,10 @@ def SignUp(run_number = 1):
         print(f"Error:\nSlot #{starting_slot} is filled. Please try again.\n")  
         SignUp(2)
     else:
+        print()
+        print(f"Success:\n{participant_name} is signed up in starting slot #{starting_slot}.")
         participant_dict[starting_slot] = participant_name
-    
+    print()
 
 
 def CancelSignUp(run_number = 1):
@@ -65,15 +67,15 @@ def CancelSignUp(run_number = 1):
         print("Participant Cancellation\n========================")
 
     cancel_message = f"Starting slot #[1-{num_participants}]: "
-    cancel_name = input("Participant Name: ")
     cancel_slot = Validate_Input(cancel_message, 'number', num_participants)
+    cancel_name = input("Participant Name: ")
     print()
 
     if participant_dict[cancel_slot] != cancel_name:
-        print(f"Error:\n{cancel_name} is not in that starting slot.\n")  
+        print(f"Error:\n{cancel_name} is not in that starting slot.")  
         CancelSignUp(2)
     else:
-        print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.\n")
+        print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
         participant_dict[cancel_slot] = None
 
 
