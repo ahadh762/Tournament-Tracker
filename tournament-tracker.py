@@ -55,33 +55,52 @@ def Sign_Up(run_number = 1):
 
     global participant_name
     global save_state
+    global counter
 
     if run_number == 1:
-        print("Participant Sign Up\n====================")
-        participant_name = input("Participant Name: ")
+        counter = 0
+        for key in participant_dict.keys():
+            if participant_dict[key] is None:
+                counter+=1
+        if counter != 0:
+            print("Participant Sign Up\n====================")
+            participant_name = input("Participant Name: ")
+
     if run_number == 3:
-        participant_name = input("Participant Name: ")
+        counter = 0
+        for key in participant_dict.keys():
+            if participant_dict[key] is None:
+                counter+=1
+        if counter != 0:
+            participant_name = input("Participant Name: ")
 
-    slot_message = f"Desired starting slot #[1-{num_participants}]: "
-    starting_slot = Validate_Input(slot_message, 'number', num_participants)
 
-    if participant_dict[starting_slot] != None:
-        print()
-        print(f"Error:\nSlot #{starting_slot} is filled. Please try again.\n")  
-        Sign_Up(2)
-    else:
-        print()
-        print(f"Success:\n{participant_name} is signed up in starting slot #{starting_slot}.")
-        participant_dict[starting_slot] = participant_name
-
-    repeat_message = "Would you like to sign up another person? (y/n): "
-    sign_up_another = Validate_Input(repeat_message, 'string')
-    
-    if sign_up_another == 'y':
-        print()
-        Sign_Up(3)
-    else:
+    if counter == 0:
+        print("Participant List is full!\n")
         Main_Menu()
+    else:
+        slot_message = f"Desired starting slot #[1-{num_participants}]: "
+        starting_slot = Validate_Input(slot_message, 'number', num_participants)
+
+        if participant_dict[starting_slot] != None:
+            print()
+            print(f"Error:\nSlot #{starting_slot} is filled. Please try again.\n")  
+            Sign_Up(2)
+        else:
+            print()
+            print(f"Success:\n{participant_name} is signed up in starting slot #{starting_slot}.")
+            participant_dict[starting_slot] = participant_name
+
+    if counter != 0:
+        repeat_message = "Would you like to sign up another person? (y/n): "
+        sign_up_another = Validate_Input(repeat_message, 'string')
+        if sign_up_another == 'y':
+            print()
+            Sign_Up(3)
+        else: 
+            Main_Menu()
+    
+
     print()
     save_state = 0
 
