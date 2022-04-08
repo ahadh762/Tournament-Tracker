@@ -78,23 +78,33 @@ def CancelSignUp(run_number = 1):
     global save_state
 
     print()
+
+    counter = 0
+    for key in participant_dict.keys():
+        if participant_dict[key] is not None:
+            counter+=1
+
     if run_number == 1:
         print("Participant Cancellation\n========================")
 
-    cancel_message = f"Starting slot #[1-{num_participants}]: "
-    cancel_slot = Validate_Input(cancel_message, 'number', num_participants)
-    cancel_name = input("Participant Name: ")
-    print()
-
-    if participant_dict[cancel_slot] != cancel_name:
-        print(f"Error:\n{cancel_name} is not in that starting slot.")  
-        CancelSignUp(2)
-    else:
-        print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
-        participant_dict[cancel_slot] = None
+    if counter != 0:
+        cancel_message = f"Starting slot #[1-{num_participants}]: "
+        cancel_slot = Validate_Input(cancel_message, 'number', num_participants)
+        cancel_name = input("Participant Name: ")
         print()
 
-    save_state = 0
+        if participant_dict[cancel_slot] != cancel_name:
+            print(f"Error:\n{cancel_name} is not in that starting slot.")  
+            CancelSignUp(2)
+        else:
+            print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
+            participant_dict[cancel_slot] = None
+            print()
+
+        save_state = 0
+
+    else:
+        print("Participant slots are empty. There is nothing to cancel!\n")
 
 def ViewParticipants():
 
