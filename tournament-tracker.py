@@ -19,7 +19,15 @@ def Validate_Input(message, input_type, num_participants = 1):
                 print()
                 print("Error: Invalid input.\n")
                 continue
-    
+
+    if input_type == 'string':
+        while valid_value == False:
+            user_input = input(message)
+            if user_input == 'y' or user_input == 'n':
+                valid_value == True
+                return user_input
+            else:
+                print("Error: Invalid input.\n")
 
 def StartUp():
 
@@ -102,8 +110,27 @@ def ViewParticipants():
         else:
             print(f"{item}: {participant_dict[item]}")
 
+def SaveChanges():
+    print()
+    print("Save Changes\n============")
+    save_message = ("Save your changes to CSV? [y/n]: ")
+    save_input = Validate_Input(save_message, 'string')
+    dict_copy = participant_dict
+    
+    if save_input == 'y':
+        for key in dict_copy:
+            if dict_copy[key] is None:
+                dict_copy[key] = "[empty]"
+
+        participants_list = [str(key) + "," + dict_copy[key] for key in dict_copy.keys()]
+        with open('tournament-tracker.csv','w') as file:
+            file.write("Slot, Participant Name\n")
+            file.write("\n".join(participants_list))
+            file.close()
+    print()
 
 StartUp()
 SignUp()
 CancelSignUp()
 ViewParticipants()
+SaveChanges()
