@@ -91,6 +91,7 @@ def Sign_Up(run_number = 1):
             print()
             print(f"Success:\n{participant_name} is signed up in starting slot #{starting_slot}.")
             participant_dict[starting_slot] = participant_name
+            save_state = 0
 
     if counter != 0:
         repeat_message = "Would you like to sign up another person? (y/n): "
@@ -104,7 +105,6 @@ def Sign_Up(run_number = 1):
     
 
     print()
-    save_state = 0
 
 
 def Cancel_Sign_Up(run_number = 1):
@@ -134,9 +134,8 @@ def Cancel_Sign_Up(run_number = 1):
             print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
             participant_dict[cancel_slot] = None
             print()
+            save_state = 0
             Main_Menu()
-
-        save_state = 0
 
     else:
         print("Participant slots are empty. There is nothing to cancel!\n\n")
@@ -181,7 +180,7 @@ def Save_Changes():
     save_message = ("Save your changes to CSV? [y/n]: ")
     save_input = Validate_Input(save_message, 'string')
 
-    dict_copy = participant_dict
+    dict_copy = participant_dict.copy()
     
     if save_input == 'y':
         for key in dict_copy:
