@@ -57,6 +57,7 @@ def Sign_Up(run_number = 1):
     global save_state
     global counter
 
+    print()
     if run_number == 1:
         counter = 0
         for key in participant_dict.keys():
@@ -98,6 +99,7 @@ def Sign_Up(run_number = 1):
             print()
             Sign_Up(3)
         else: 
+            print()
             Main_Menu()
     
 
@@ -132,13 +134,15 @@ def Cancel_Sign_Up(run_number = 1):
             print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
             participant_dict[cancel_slot] = None
             print()
+            Main_Menu()
 
         save_state = 0
 
     else:
         print("Participant slots are empty. There is nothing to cancel!\n\n")
+        Main_Menu()
     
-    Main_Menu()
+
 
 def View_Participants():
 
