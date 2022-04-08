@@ -1,4 +1,4 @@
-def Validate_Input(message, input_type, num_participants = 1):
+def Validate_Input(message, input_type, range_of_values = 1):
 
     valid_value = False
 
@@ -6,10 +6,10 @@ def Validate_Input(message, input_type, num_participants = 1):
         while valid_value == False:
             try:
                 user_input = int(input(message))
-                if (user_input < 1 or user_input > num_participants) and num_participants != 1:
+                if (user_input < 1 or user_input > range_of_values) and range_of_values != 1:
                     print()
                     print('Error: Out of range!\n')
-                elif user_input <= 1 and num_participants == 1:
+                elif user_input <= 1 and range_of_values == 1:
                     print()
                     print('Error: The number of participants must be more than 1!\n')
                 else:
@@ -27,9 +27,10 @@ def Validate_Input(message, input_type, num_participants = 1):
                 valid_value == True
                 return user_input
             else:
+                print()
                 print("Error: Invalid input.\n")
 
-def StartUp():
+def Start_Up():
 
     global participant_dict
     global num_participants
@@ -41,7 +42,7 @@ def StartUp():
 
     num_participants = Validate_Input(message, 'number')
 
-    print(f"There are {num_participants} participant slots ready for sign-ups.\n\n")
+    print(f"There are {num_participants} participant slots ready for sign-ups.\n")
 
     participant_dict = {}
     for i in range(1,num_participants+1):
@@ -50,7 +51,7 @@ def StartUp():
     save_state = 0
 
 
-def SignUp(run_number = 1):
+def Sign_Up(run_number = 1):
 
     global participant_name
     global save_state
@@ -64,7 +65,7 @@ def SignUp(run_number = 1):
     if participant_dict[starting_slot] != None:
         print()
         print(f"Error:\nSlot #{starting_slot} is filled. Please try again.\n")  
-        SignUp(2)
+        Sign_Up(2)
     else:
         print()
         print(f"Success:\n{participant_name} is signed up in starting slot #{starting_slot}.")
@@ -72,8 +73,9 @@ def SignUp(run_number = 1):
     print()
 
     save_state = 0
+    Main_Menu()
 
-def CancelSignUp(run_number = 1):
+def Cancel_Sign_Up(run_number = 1):
 
     global save_state
 
@@ -95,7 +97,7 @@ def CancelSignUp(run_number = 1):
 
         if participant_dict[cancel_slot] != cancel_name:
             print(f"Error:\n{cancel_name} is not in that starting slot.")  
-            CancelSignUp(2)
+            Cancel_Sign_Up(2)
         else:
             print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
             participant_dict[cancel_slot] = None
@@ -104,9 +106,11 @@ def CancelSignUp(run_number = 1):
         save_state = 0
 
     else:
-        print("Participant slots are empty. There is nothing to cancel!\n")
+        print("Participant slots are empty. There is nothing to cancel!\n\n")
+    
+    Main_Menu()
 
-def ViewParticipants():
+def View_Participants():
 
     global save_state
 
@@ -132,14 +136,17 @@ def ViewParticipants():
             print(f"{item}: {participant_dict[item]}")
     
     save_state = 0
+    Main_Menu()
 
-def SaveChanges():
+
+def Save_Changes():
     global save_state
 
     print()
     print("Save Changes\n============")
     save_message = ("Save your changes to CSV? [y/n]: ")
     save_input = Validate_Input(save_message, 'string')
+
     dict_copy = participant_dict
     
     if save_input == 'y':
@@ -156,6 +163,7 @@ def SaveChanges():
     else:
         save_state = 0
     print()
+    Main_Menu()
 
     
 def Exit():
@@ -171,10 +179,28 @@ def Exit():
     if end_input == 'y':
         print()
         print("Goodbye!")
+    else:
+        Main_Menu()
 
-StartUp()
-SignUp()
-CancelSignUp()
-ViewParticipants()
-SaveChanges()
-Exit()
+
+def Main_Menu():
+    print()
+    print("Participant Menu\n================")
+    print("1. Sign Up\n2. Cancel Sign Up\n3. View Participants\n4. Save Changes\n5. Exit\n")
+    menu_message = ("Select an option to continue: ")
+    menu_selection = Validate_Input(menu_message, 'number', 5)
+    print()
+
+    if menu_selection == 1:
+        Sign_Up()
+    elif menu_selection == 2:
+        Cancel_Sign_Up()
+    elif menu_selection == 3:
+        View_Participants()
+    elif menu_selection == 4:
+        Save_Changes()
+    else:
+        Exit()
+
+Start_Up()
+Main_Menu()
