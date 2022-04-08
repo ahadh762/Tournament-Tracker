@@ -33,6 +33,7 @@ def StartUp():
 
     global participant_dict
     global num_participants
+    global save_state
 
     print()
     print("Welcome to Tournaments R Us\n============================")
@@ -46,10 +47,13 @@ def StartUp():
     for i in range(1,num_participants+1):
         participant_dict.update({i:None}) 
 
+    save_state = 0
+
 
 def SignUp(run_number = 1):
 
     global participant_name
+    global save_state
 
     if run_number == 1:
         print("Participant Sign Up\n====================")
@@ -67,8 +71,11 @@ def SignUp(run_number = 1):
         participant_dict[starting_slot] = participant_name
     print()
 
+    save_state = 0
 
 def CancelSignUp(run_number = 1):
+
+    global save_state
 
     print()
     if run_number == 1:
@@ -87,8 +94,12 @@ def CancelSignUp(run_number = 1):
         participant_dict[cancel_slot] = None
         print()
 
+    save_state = 0
 
 def ViewParticipants():
+
+    global save_state
+
     print()
     print("View Participants\n=================")
     view_message = f"Starting slot #[1-{num_participants}]: "
@@ -109,8 +120,12 @@ def ViewParticipants():
             print(f"{item}: [empty]")
         else:
             print(f"{item}: {participant_dict[item]}")
+    
+    save_state = 0
 
 def SaveChanges():
+    global save_state
+
     print()
     print("Save Changes\n============")
     save_message = ("Save your changes to CSV? [y/n]: ")
@@ -127,10 +142,29 @@ def SaveChanges():
             file.write("Slot, Participant Name\n")
             file.write("\n".join(participants_list))
             file.close()
+        save_state = 1
+    else:
+        save_state = 0
     print()
+
+    
+def Exit():
+    global save_state
+
+    print()
+    print("Exit\n=====")
+    if save_state == 0:
+        print('Any unsaved changes will be lost.')
+    end_message = ("Are you sure you want to exit? [y/n]: ")
+    end_input = Validate_Input(end_message, 'string')
+
+    if end_input == 'y':
+        print()
+        print("Goodbye!")
 
 StartUp()
 SignUp()
 CancelSignUp()
 ViewParticipants()
 SaveChanges()
+Exit()
