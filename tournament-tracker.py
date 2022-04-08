@@ -59,6 +59,9 @@ def Sign_Up(run_number = 1):
     if run_number == 1:
         print("Participant Sign Up\n====================")
         participant_name = input("Participant Name: ")
+    if run_number == 3:
+        participant_name = input("Participant Name: ")
+
     slot_message = f"Desired starting slot #[1-{num_participants}]: "
     starting_slot = Validate_Input(slot_message, 'number', num_participants)
 
@@ -70,10 +73,18 @@ def Sign_Up(run_number = 1):
         print()
         print(f"Success:\n{participant_name} is signed up in starting slot #{starting_slot}.")
         participant_dict[starting_slot] = participant_name
-    print()
 
+    repeat_message = "Would you like to sign up another person? (y/n): "
+    sign_up_another = Validate_Input(repeat_message, 'string')
+    
+    if sign_up_another == 'y':
+        print()
+        Sign_Up(3)
+    else:
+        Main_Menu()
+    print()
     save_state = 0
-    Main_Menu()
+
 
 def Cancel_Sign_Up(run_number = 1):
 
@@ -168,6 +179,7 @@ def Save_Changes():
     
 def Exit():
     global save_state
+    global end_input
 
     print()
     print("Exit\n=====")
@@ -176,11 +188,12 @@ def Exit():
     end_message = ("Are you sure you want to exit? [y/n]: ")
     end_input = Validate_Input(end_message, 'string')
 
-    if end_input == 'y':
+    if end_input == 'n':
+        Main_Menu()
+    elif end_input == 'y':
         print()
         print("Goodbye!")
-    else:
-        Main_Menu()
+
 
 
 def Main_Menu():
