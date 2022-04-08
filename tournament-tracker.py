@@ -77,8 +77,33 @@ def CancelSignUp(run_number = 1):
     else:
         print(f"Success:\n{cancel_name} has been cancelled from starting slot #{cancel_slot}.")
         participant_dict[cancel_slot] = None
+        print()
+
+
+def ViewParticipants():
+    print()
+    print("View Participants\n=================")
+    view_message = f"Starting slot #[1-{num_participants}]: "
+    view_slot = Validate_Input(view_message, 'number', num_participants) - 1  # Subtract 1 because dictionary indexing starts from 0
+    print()
+    print("Starting Slot: Participant")
+    dictionary = list(participant_dict)
+
+    if view_slot < 5:
+        participants_list = dictionary[0:view_slot+6]
+    elif num_participants - view_slot < 5:
+        participants_list = dictionary[view_slot-5: num_participants]
+    else:
+        participants_list = dictionary[view_slot-5:view_slot+6]
+    
+    for item in participants_list:
+        if participant_dict[item] == None:
+            print(f"{item}: [empty]")
+        else:
+            print(f"{item}: {participant_dict[item]}")
 
 
 StartUp()
 SignUp()
 CancelSignUp()
+ViewParticipants()
