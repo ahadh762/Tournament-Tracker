@@ -22,7 +22,7 @@ def Validate_Input(message, input_type, range_of_values = 1):
 
     if input_type == 'string':
         while valid_value == False:
-            user_input = input(message)
+            user_input = input(message).lower()
             if user_input == 'y' or user_input == 'n':
                 valid_value == True
                 return user_input
